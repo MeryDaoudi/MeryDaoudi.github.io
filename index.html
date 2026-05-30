@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mariam DAOUDI — Cybersecurity Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080d12;
+      --bg2: #0d1520;
+      --bg3: #111c2b;
+      --accent: #00e5ff;
+      --accent2: #00ff88;
+      --accent3: #ff6b35;
+      --text: #c8d8e8;
+      --text2: #6a8aa8;
+      --border: rgba(0,229,255,0.15);
+      --glow: 0 0 20px rgba(0,229,255,0.3);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Scanlines */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .mono { font-family: 'Share Tech Mono', monospace; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(8,13,18,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--accent);
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-logo span { color: var(--accent2); }
+
+    nav ul {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    nav a {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-inner {
+      max-width: 900px;
+    }
+
+    .hero-tag {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--accent);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 .name-last {
+      color: var(--accent);
+      text-shadow: var(--glow);
+    }
+
+    .hero-title {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--text2);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-title .hl { color: var(--accent2); }
+
+    .terminal-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+      max-width: 620px;
+      position: relative;
+    }
+
+    .terminal-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #ffbd2e; }
+    .dot-g { background: #28ca41; }
+
+    .terminal-line {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    .terminal-line .prompt { color: var(--accent2); }
+    .terminal-line .cmd { color: var(--accent); }
+    .terminal-line .val { color: #ff6b35; }
+    .terminal-line .comment { color: var(--text2); }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      background: var(--accent);
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      padding: 0.8rem 1.8rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      background: #fff;
+      box-shadow: var(--glow);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .btn-outline:hover {
+      background: rgba(0,229,255,0.08);
+      box-shadow: var(--glow);
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      position: relative;
+      z-index: 2;
+      padding: 5rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-num {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--accent);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-item {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .exp-item:last-child { border-bottom: none; }
+
+    .exp-date {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--text2);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      padding-top: 4px;
+    }
+
+    .exp-company {
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-family: 'Share Tech Mono', monospace;
+      margin-bottom: 0.3rem;
+    }
+
+    .exp-role {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+
+    .exp-desc {
+      color: var(--text2);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.25rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.8rem;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .project-card:hover {
+      border-color: rgba(0,229,255,0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,229,255,0.1);
+    }
+
+    .project-card:hover::before { opacity: 1; }
+
+    .project-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-name {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .project-desc {
+      font-size: 0.85rem;
+      color: var(--text2);
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-group {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+
+    .skill-group-title {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--accent2);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+
+    .skill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-pill {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.3rem 0.7rem;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text);
+    }
+
+    /* ── CERTS ── */
+    .certs-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .cert-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.2rem 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .cert-icon {
+      font-size: 1.8rem;
+    }
+
+    .cert-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .cert-issuer {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      text-align: center;
+      padding-bottom: 6rem;
+    }
+
+    .contact-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 3rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contact-email {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin: 1.5rem 0;
+      display: block;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text2);
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.6s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in:nth-child(1) { animation-delay: 0.1s; }
+    .fade-in:nth-child(2) { animation-delay: 0.2s; }
+    .fade-in:nth-child(3) { animation-delay: 0.3s; }
+    .fade-in:nth-child(4) { animation-delay: 0.4s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { display: none; }
+      #hero { padding: 7rem 1.5rem 3rem; }
+      section { padding: 3rem 1.5rem; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      h1 { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo mono">mariam<span>@</span>daoudi:~$</div>
+  <ul>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="max-width:100%; padding-top:8rem;">
+  <div class="hero-inner">
+    <div class="hero-tag fade-in">CYBERSECURITY &amp; DEVOPS ENGINEER</div>
+    <h1 class="fade-in">
+      Mariam<br>
+      <span class="name-last">DAOUDI</span>
+    </h1>
+    <p class="hero-title fade-in">
+      ENSA Fès · 4th Year · <span class="hl">CompTIA Security+</span> · OCI Foundations
+    </p>
+
+    <div class="terminal-box fade-in">
+      <div class="terminal-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+      </div>
+      <div class="terminal-line">
+        <span class="prompt">mariam@portfolio</span>:<span class="cmd">~$</span> whoami
+      </div>
+      <div class="terminal-line" style="color:#c8d8e8; padding-left:1rem;">
+        Cybersecurity engineering student @ ENSA Fès
+      </div>
+      <div class="terminal-line" style="margin-top:0.5rem;">
+        <span class="prompt">mariam@portfolio</span>:<span class="cmd">~$</span> cat experience.txt
+      </div>
+      <div class="terminal-line" style="padding-left:1rem;">
+        <span class="val">5 months</span> CyberDefense @ <span class="val">DataProtect</span> <span class="comment"># N°1 cybersecurity firm in Africa</span>
+      </div>
+      <div class="terminal-line" style="margin-top:0.5rem;">
+        <span class="prompt">mariam@portfolio</span>:<span class="cmd">~$</span> cat status.txt
+      </div>
+      <div class="terminal-line" style="padding-left:1rem;">
+        <span class="accent2" style="color:var(--accent2);">[ OPEN ]</span> Seeking PFE internship · <span class="val">Cybersecurity / Cloud Security</span>
+      </div>
+      <div class="terminal-line" style="margin-top:0.5rem;">
+        <span class="prompt">mariam@portfolio</span>:<span class="cmd">~$</span> <span class="cursor"></span>
+      </div>
+    </div>
+
+    <div class="hero-ctas fade-in">
+      <a href="#contact" class="btn btn-primary">GET IN TOUCH</a>
+      <a href="https://linkedin.com/in/mariam-daoudi" target="_blank" class="btn btn-outline">LINKEDIN</a>
+      <a href="https://github.com/MeryDaoudi" target="_blank" class="btn btn-outline">GITHUB</a>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-date">AUG – DEC 2025</div>
+    <div>
+      <div class="exp-company">DATAPROTECT — CASABLANCA</div>
+      <div class="exp-role">Consultante CyberDefense</div>
+      <div class="exp-desc">
+        Worked within Africa's N°1 cybersecurity firm on real-world CyberDefense operations.
+        Administered Windows Server, Linux, Active Directory, DNS/DHCP and GPO across a fleet of machines.
+        Configured and managed PAM with WALLIX Bastion: bastion access, RBAC, session recording, password rotation.
+        Handled advanced topics: EDR, Zero-Trust architecture, network segmentation, MFA, incident detection.
+      </div>
+      <div class="tags">
+        <span class="tag">WALLIX Bastion</span>
+        <span class="tag">Active Directory</span>
+        <span class="tag">EDR</span>
+        <span class="tag">Zero-Trust</span>
+        <span class="tag">Fortigate</span>
+        <span class="tag">MFA</span>
+        <span class="tag">VMware vSphere</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-date">JUN – JUL 2025</div>
+    <div>
+      <div class="exp-company">TRIBUNAL DE PREMIÈRE INSTANCE — FÈS</div>
+      <div class="exp-role">Stagiaire Systèmes IT</div>
+      <div class="exp-desc">
+        Migrated and upgraded the Active Directory infrastructure from Windows Server 2003 to 2019 for all institution users.
+        Transitioned domain and forest functional levels, cleaned DNS and troubleshot AD replication issues.
+      </div>
+      <div class="tags">
+        <span class="tag">Active Directory</span>
+        <span class="tag">Windows Server 2019</span>
+        <span class="tag">DNS</span>
+        <span class="tag">Group Policy</span>
+        <span class="tag">Repadmin</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-icon">🔐</div>
+      <div class="project-name">WALLIX PAM Lab</div>
+      <div class="project-desc">
+        Full Privileged Access Management architecture: secure bastion access, role-based authorization (RBAC), session recording, password rotation and compliance controls.
+      </div>
+      <div class="tags">
+        <span class="tag">WALLIX</span>
+        <span class="tag">PAM</span>
+        <span class="tag">Bastion</span>
+        <span class="tag">RBAC</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon">📊</div>
+      <div class="project-name">Monitoring Stack</div>
+      <div class="project-desc">
+        Built a full observability stack with Node Exporter, cAdvisor, Prometheus and Grafana via Docker Compose. Set up dashboards and AlertManager alerting for system and container metrics.
+      </div>
+      <div class="tags">
+        <span class="tag">Prometheus</span>
+        <span class="tag">Grafana</span>
+        <span class="tag">Docker</span>
+        <span class="tag">AlertManager</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon">☁️</div>
+      <div class="project-name">DevOps Cloud Deployment</div>
+      <div class="project-desc">
+        Containerized application with Docker, CI/CD pipelines on GitLab, deployed on AWS EC2 with custom VPC configuration and automated testing.
+      </div>
+      <div class="tags">
+        <span class="tag">Docker</span>
+        <span class="tag">GitLab CI/CD</span>
+        <span class="tag">AWS EC2</span>
+        <span class="tag">Terraform</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-icon">🖥️</div>
+      <div class="project-name">Active Directory Migration</div>
+      <div class="project-desc">
+        Upgraded AD environment from 2003 to 2019, redesigned the architecture, cleaned DNS and strengthened security policies across the domain.
+      </div>
+      <div class="tags">
+        <span class="tag">Active Directory</span>
+        <span class="tag">Windows Server</span>
+        <span class="tag">DNS</span>
+        <span class="tag">PowerShell</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Tech Stack</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">// SECURITY & NETWORKS</div>
+      <div class="skill-list">
+        <span class="skill-pill">Active Directory</span>
+        <span class="skill-pill">PAM / IAM</span>
+        <span class="skill-pill">WALLIX Bastion</span>
+        <span class="skill-pill">EDR</span>
+        <span class="skill-pill">Zero-Trust</span>
+        <span class="skill-pill">MFA</span>
+        <span class="skill-pill">Fortigate</span>
+        <span class="skill-pill">PaloAlto</span>
+        <span class="skill-pill">VPN</span>
+        <span class="skill-pill">DNS/DHCP</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">// SOC & BLUE TEAM</div>
+      <div class="skill-list">
+        <span class="skill-pill">SIEM</span>
+        <span class="skill-pill">ELK Stack</span>
+        <span class="skill-pill">MITRE ATT&CK</span>
+        <span class="skill-pill">Incident Response</span>
+        <span class="skill-pill">Wireshark</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">// CLOUD & DEVOPS</div>
+      <div class="skill-list">
+        <span class="skill-pill">AWS EC2/IAM/VPC</span>
+        <span class="skill-pill">Docker</span>
+        <span class="skill-pill">GitLab CI/CD</span>
+        <span class="skill-pill">Terraform</span>
+        <span class="skill-pill">Prometheus</span>
+        <span class="skill-pill">Grafana</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">// SYSTEMS & VIRT</div>
+      <div class="skill-list">
+        <span class="skill-pill">Windows Server</span>
+        <span class="skill-pill">Ubuntu</span>
+        <span class="skill-pill">Rocky Linux</span>
+        <span class="skill-pill">VMware vSphere</span>
+        <span class="skill-pill">ESXi</span>
+        <span class="skill-pill">Proxmox</span>
+        <span class="skill-pill">LXC</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Certifications -->
+  <div style="margin-top: 2.5rem;">
+    <div class="section-header" style="margin-bottom:1.5rem;">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Certifications</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="certs-row">
+      <div class="cert-card">
+        <div class="cert-icon">🛡️</div>
+        <div>
+          <div class="cert-name">CompTIA Security+</div>
+          <div class="cert-issuer">SY0-701 · CompTIA</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">☁️</div>
+        <div>
+          <div class="cert-name">OCI Foundations</div>
+          <div class="cert-issuer">Oracle Cloud Infrastructure</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">⚡</div>
+        <div>
+          <div class="cert-name">IEEE Student Member</div>
+          <div class="cert-issuer">Chair · ENSA Fès Branch</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Contact</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="contact-box">
+    <p style="color:var(--text2); font-size:0.95rem; line-height:1.7;">
+      Looking for a <strong style="color:#fff;">PFE internship (4–6 months)</strong> in Cybersecurity or Cloud Security — Morocco or France.
+      Open to any opportunity that challenges and grows my expertise.
+    </p>
+    <a href="mailto:mariam.daoudi@outlook.fr" class="contact-email">
+      mariam.daoudi@outlook.fr
+    </a>
+    <div class="contact-links">
+      <a href="https://linkedin.com/in/mariam-daoudi" target="_blank" class="btn btn-outline">LINKEDIN</a>
+      <a href="https://github.com/MeryDaoudi" target="_blank" class="btn btn-outline">GITHUB</a>
+      <a href="Mariam_DAOUDI_CV.pdf" class="btn btn-primary">DOWNLOAD CV</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="mono">mariam@daoudi:~$ echo "Built with passion · mariamdaoudi.com · 2026"</span>
+</footer>
+
+</body>
+</html>
